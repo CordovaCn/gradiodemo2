@@ -3,15 +3,17 @@ import torch
 import requests
 from torchvision import transforms
 
-model = torch.hub.load('pytorch/vision:v0.6.0', 'resnet18', pretrained=True).eval()
+# model = torch.hub.load('pytorch/vision:v0.6.0', 'resnet18', pretrained=True).eval()
 response = requests.get("https://git.io/JJkYN")
 labels = response.text.split("\n")
-#zheshizhushi
+
 def predict(inp):
-  inp = transforms.ToTensor()(inp).unsqueeze(0)
-  with torch.no_grad():
-    prediction = torch.nn.functional.softmax(model(inp)[0], dim=0)
-    confidences = {labels[i]: float(prediction[i]) for i in range(1000)}    
+  # inp = transforms.ToTensor()(inp).unsqueeze(0)
+  # with torch.no_grad():
+  #   prediction = torch.nn.functional.softmax(model(inp)[0], dim=0)
+  #   confidences = {labels[i]: float(prediction[i]) for i in range(1000)}    
+
+  confidences = {labels[i]: i for i in range(1000)}    
   return confidences
 
 demo = gr.Interface(fn=predict, 
